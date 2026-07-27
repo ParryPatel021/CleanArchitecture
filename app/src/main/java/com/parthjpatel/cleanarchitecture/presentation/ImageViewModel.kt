@@ -2,8 +2,8 @@ package com.parthjpatel.cleanarchitecture.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.parthjpatel.cleanarchitecture.domain.model.GetImageUiState
-import com.parthjpatel.cleanarchitecture.presentation.useCases.GetImageUseCase
+import com.parthjpatel.cleanarchitecture.presentation.searchUIState.GetImageUiState
+import com.parthjpatel.cleanarchitecture.domain.useCases.GetImageUseCase
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

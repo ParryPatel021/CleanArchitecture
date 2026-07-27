@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.parthjpatel.cleanarchitecture.domain.model.GetImageUiState
+import com.parthjpatel.cleanarchitecture.presentation.searchUIState.GetImageUiState
 import com.parthjpatel.cleanarchitecture.presentation.ui.components.ErrorContainer
 import com.parthjpatel.cleanarchitecture.presentation.ui.components.LoadingContainer
 import com.parthjpatel.cleanarchitecture.presentation.ui.components.PhotosListItem
