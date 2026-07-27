@@ -1,4 +1,4 @@
-package com.parthjpatel.cleanarchitecture.domain.useCases
+package com.parthjpatel.cleanarchitecture.presentation.useCases
 
 import com.parthjpatel.cleanarchitecture.data.repository.ImagesRepositoryImpl
 import com.parthjpatel.cleanarchitecture.domain.model.DomainModel

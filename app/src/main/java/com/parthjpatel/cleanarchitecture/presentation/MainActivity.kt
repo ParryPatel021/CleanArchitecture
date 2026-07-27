@@ -68,19 +68,19 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { innerPadding ->
                     when (val state = uiState) {
-                        is GetImageUiState.None -> Box {  }
                         is GetImageUiState.Loading -> LoadingContainer(innerPadding)
                         is GetImageUiState.Success -> {
-                            state.data?.let { list ->
-                                LazyColumn(
-                                    modifier = Modifier
-                                        .padding(innerPadding)
-                                        .fillMaxSize()
-                                ) {
-                                    items(list) {
-                                        PhotosListItem(it.imageUrl)
+                            state.data.let { list ->
+                                if (list.isNotEmpty())
+                                    LazyColumn(
+                                        modifier = Modifier
+                                            .padding(innerPadding)
+                                            .fillMaxSize()
+                                    ) {
+                                        items(list) {
+                                            PhotosListItem(it.imageUrl)
+                                        }
                                     }
-                                }
                             }
                         }
 
