@@ -1,4 +1,6 @@
-package com.parthjpatel.cleanarchitecture.domain.model
+package com.parthjpatel.cleanarchitecture.presentation.searchUIState
+
+import com.parthjpatel.cleanarchitecture.domain.model.DomainModel
 
 sealed interface GetImageUiState {
     data object Loading : GetImageUiState
