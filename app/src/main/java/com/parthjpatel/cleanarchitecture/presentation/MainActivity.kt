@@ -8,13 +8,10 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -23,14 +20,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
+import com.parthjpatel.cleanarchitecture.domain.model.GetImageUiState
+import com.parthjpatel.cleanarchitecture.presentation.ui.components.ErrorContainer
+import com.parthjpatel.cleanarchitecture.presentation.ui.components.LoadingContainer
+import com.parthjpatel.cleanarchitecture.presentation.ui.components.PhotosListItem
 import com.parthjpatel.cleanarchitecture.presentation.ui.theme.CleanArchitectureTheme
 
 // Load User List
@@ -70,48 +67,27 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                 ) { innerPadding ->
-                    if (uiState.isLoading) {
-                        Box(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            CircularProgressIndicator()
-                        }
-                    }
-
-                    if (uiState.error.isNotEmpty()) {
-                        Box(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .fillMaxSize(),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(uiState.error)
-                        }
-                    }
-
-                    uiState.data?.let { list ->
-                        LazyColumn(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .fillMaxSize()
-                        ) {
-                            items(list) {
-                                AsyncImage(
-                                    model = it.imageUrl,
+                    when (val state = uiState) {
+                        is GetImageUiState.None -> Box {  }
+                        is GetImageUiState.Loading -> LoadingContainer(innerPadding)
+                        is GetImageUiState.Success -> {
+                            state.data?.let { list ->
+                                LazyColumn(
                                     modifier = Modifier
-                                        .padding(12.dp)
-                                        .clip(RoundedCornerShape(12.dp))
-                                        .fillMaxWidth()
-                                        .height(300.dp),
-                                    contentScale = ContentScale.Crop,
-                                    contentDescription = null,
-                                )
+                                        .padding(innerPadding)
+                                        .fillMaxSize()
+                                ) {
+                                    items(list) {
+                                        PhotosListItem(it.imageUrl)
+                                    }
+                                }
                             }
                         }
 
+                        is GetImageUiState.Error -> ErrorContainer(
+                            innerPadding,
+                            state.message
+                        )
                     }
                 }
             }

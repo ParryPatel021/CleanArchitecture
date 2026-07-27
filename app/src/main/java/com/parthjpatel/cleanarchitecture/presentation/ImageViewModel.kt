@@ -2,7 +2,7 @@ package com.parthjpatel.cleanarchitecture.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.parthjpatel.cleanarchitecture.domain.model.DomainModel
+import com.parthjpatel.cleanarchitecture.domain.model.GetImageUiState
 import com.parthjpatel.cleanarchitecture.domain.useCases.GetImageUseCase
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,7 +23,7 @@ class ImageViewModel : ViewModel() {
 
     private val useCase: GetImageUseCase by lazy { GetImageUseCase() }
 
-    private val _uiState = MutableStateFlow(UiState())
+    private val _uiState = MutableStateFlow<GetImageUiState>(GetImageUiState.None)
     val uiState = _uiState.asStateFlow()
 
     private val _query = MutableStateFlow("")
@@ -44,22 +44,22 @@ class ImageViewModel : ViewModel() {
     }
 
     fun getImages(q: String) {
-        useCase(q).onStart { _uiState.update { UiState(isLoading = true) } }
+        useCase(q).onStart { _uiState.update { GetImageUiState.Loading } }
             .onEach { result ->
                 if (result.isSuccess) {
-                    _uiState.update { UiState(data = result.getOrNull()) }
+                    _uiState.update { GetImageUiState.Success(data = result.getOrNull()) }
                 } else {
-                    _uiState.update { UiState(error = result.exceptionOrNull()?.message.toString()) }
+                    _uiState.update { GetImageUiState.Error(message = result.exceptionOrNull()?.message.toString()) }
                 }
             }.catch { error ->
-                _uiState.update { UiState(error = error.message.toString()) }
+                _uiState.update { GetImageUiState.Error(message = error.message.toString()) }
             }.launchIn(viewModelScope)
     }
 
 }
 
-data class UiState(
-    val isLoading: Boolean = false,
-    val error: String = "",
-    val data: List<DomainModel>? = null,
-)
+//data class UiState(
+//    val isLoading: Boolean = false,
+//    val error: String = "",
+//    val data: List<DomainModel>? = null,
+//)
