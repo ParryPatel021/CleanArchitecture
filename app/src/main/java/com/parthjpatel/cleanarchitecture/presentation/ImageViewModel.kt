@@ -2,9 +2,9 @@ package com.parthjpatel.cleanarchitecture.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.parthjpatel.cleanarchitecture.presentation.searchUIState.GetImageUiState
 import com.parthjpatel.cleanarchitecture.domain.useCases.GetImageUseCase
-import kotlinx.coroutines.FlowPreview
+import com.parthjpatel.cleanarchitecture.presentation.searchUIState.GetImageUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
@@ -17,12 +17,15 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ImageViewModel : ViewModel() {
+@HiltViewModel
+class ImageViewModel @Inject constructor(private val useCase: GetImageUseCase) : ViewModel() {
 
-    private val useCase: GetImageUseCase by lazy { GetImageUseCase() }
+//    private val useCase: GetImageUseCase by lazy { GetImageUseCase() }
 
-    private val _uiState = MutableStateFlow<GetImageUiState>(GetImageUiState.Success(data = emptyList()))
+    private val _uiState =
+        MutableStateFlow<GetImageUiState>(GetImageUiState.Success(data = emptyList()))
     val uiState = _uiState.asStateFlow()
 
     private val _query = MutableStateFlow("")

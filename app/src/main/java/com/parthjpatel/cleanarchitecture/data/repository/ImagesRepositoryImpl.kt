@@ -1,13 +1,15 @@
 package com.parthjpatel.cleanarchitecture.data.repository
 
 import com.parthjpatel.cleanarchitecture.data.remote.ApiService
-import com.parthjpatel.cleanarchitecture.data.remote.RetrofitInstance
 import com.parthjpatel.cleanarchitecture.domain.model.DomainModel
 import com.parthjpatel.cleanarchitecture.domain.repository.ImagesRepository
+import javax.inject.Inject
 
-class ImagesRepositoryImpl : ImagesRepository {
+class ImagesRepositoryImpl @Inject constructor(
+    private val apiService: ApiService
+) : ImagesRepository {
 
-    private val apiService: ApiService by lazy { RetrofitInstance.getApiService() }
+//    private val apiService: ApiService by lazy { RetrofitInstance.getApiService() }
 
     override suspend fun getImages(q: String): Result<List<DomainModel>> {
         return try {

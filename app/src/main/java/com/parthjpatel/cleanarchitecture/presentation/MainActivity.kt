@@ -31,6 +31,7 @@ import com.parthjpatel.cleanarchitecture.presentation.ui.components.LoadingConta
 import com.parthjpatel.cleanarchitecture.presentation.ui.components.PhotosListItem
 import com.parthjpatel.cleanarchitecture.presentation.ui.theme.CleanArchitectureTheme
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 // Load User List
 // URL: https://jsonplaceholder.typicode.com/users
@@ -38,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: ImageViewModel by viewModels()
+    val viewModel: ImageViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
